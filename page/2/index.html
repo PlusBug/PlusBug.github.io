@@ -198,6 +198,110 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.0xbug.com/posts/c32c.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://img.0xbug.com:88/blog/images/avatar.gif">
+      <meta itemprop="name" content="Bug++">
+      <meta itemprop="description" content="以狂热的态度面对一切事物，用不畏惧的态度玩乐生活。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bug++">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/posts/c32c.html" class="post-title-link" itemprop="url">IP-GUARD软件冲突</a>
+        </h2>
+
+        <div class="post-meta">
+        
+        
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-17 21:25:54 / 修改时间：22:11:38" itemprop="dateCreated datePublished" datetime="2020-06-17T21:25:54+08:00">2020-06-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IP-GUARD/" itemprop="url" rel="index"><span itemprop="name">IP-GUARD</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/c32c.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/c32c.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>软件冲突<br>确认问题现象，具体描述：无法启动？某个功能异常？运行缓慢？</p>
+<ol>
+<li>首先需要确认问题是否与加密有关，还是与普通客户端有关，取消加密是否有问题。</li>
+</ol>
+<p>若取消加密依然有问题，则可能两种情况：</p>
+<p>1)       配置文件被加密</p>
+<p>通过控制台或客户端本地扫描工具扫描全盘或者程序相关目录下的文件（主要是C盘和软件安装目录）并一部分一部分的解密，直至全部解密。若解密到某一部分，软件恢复正常，则问题与解密的文件有关，需要细化到具体某一个（类）文件，在授权库中将导致问题的文件设置为配置文件或过滤文件</p>
+<p>2)       普通客户端冲突</p>
+<p>客户端配置屏蔽普通模块主动注入hookapi_disinj=1</p>
+<p>屏蔽普通模块HOOKAPI hookapi_disins=1</p>
+<ol start="2">
+<li>第一步取消加密问题消失，则启用加密，加密授权设置相应软件只解密不加密，重启程序。</li>
+</ol>
+<p>若设置只解密不加密问题消失，则可能有两种情况：</p>
+<p>1)       临时文件被加密（包括系统进程可能读取临时文件）</p>
+<p>通过注册表设置过滤（过滤C盘文件是否有问题、过滤用户配置文件目录是否有问题、过滤软件安装目录是否有问题），确认临时文件的位置，在授权库中将导致问题的文件设置为配置文件或过滤文件</p>
+<p>2)       未授权进程无法读写临时文件</p>
+<p>Procmon.exe检查是否有进程未授权，添加未授权进程授权</p>
+<ol start="3">
+<li>第二步只解密不加密问题依旧，则启用加密状态下取消软件加密授权，若问题消失，则可能是加密主动注入或HOOKAPI导致内部冲突，注册表设置过滤加密主动注入或HOOKAPI（确认导致问题函数）</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.0xbug.com/posts/696.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -216,6 +320,8 @@
         </h2>
 
         <div class="post-meta">
+        
+        
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -223,7 +329,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-06-17 21:24:42 / 修改时间：21:25:32" itemprop="dateCreated datePublished" datetime="2020-06-17T21:24:42+08:00">2020-06-17</time>
+              <time title="创建时间：2020-06-17 21:24:42 / 修改时间：22:11:38" itemprop="dateCreated datePublished" datetime="2020-06-17T21:24:42+08:00">2020-06-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -298,6 +404,8 @@
         </h2>
 
         <div class="post-meta">
+        
+        
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -305,7 +413,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-06-17 21:21:14 / 修改时间：21:24:08" itemprop="dateCreated datePublished" datetime="2020-06-17T21:21:14+08:00">2020-06-17</time>
+              <time title="创建时间：2020-06-17 21:21:14 / 修改时间：22:11:38" itemprop="dateCreated datePublished" datetime="2020-06-17T21:21:14+08:00">2020-06-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -386,6 +494,8 @@
         </h2>
 
         <div class="post-meta">
+        
+        
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -393,7 +503,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-06-17 15:04:15 / 修改时间：21:17:14" itemprop="dateCreated datePublished" datetime="2020-06-17T15:04:15+08:00">2020-06-17</time>
+              <time title="创建时间：2020-06-17 15:04:15 / 修改时间：22:11:38" itemprop="dateCreated datePublished" datetime="2020-06-17T15:04:15+08:00">2020-06-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -470,6 +580,8 @@
         </h2>
 
         <div class="post-meta">
+        
+        
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -561,6 +673,8 @@
         </h2>
 
         <div class="post-meta">
+        
+        
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -653,6 +767,8 @@
         </h2>
 
         <div class="post-meta">
+        
+        
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -749,6 +865,8 @@
         </h2>
 
         <div class="post-meta">
+        
+        
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -876,6 +994,8 @@
         </h2>
 
         <div class="post-meta">
+        
+        
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -959,6 +1079,8 @@
         </h2>
 
         <div class="post-meta">
+        
+        
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -1020,105 +1142,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.0xbug.com/posts/a187.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="http://img.0xbug.com:88/blog/images/avatar.gif">
-      <meta itemprop="name" content="Bug++">
-      <meta itemprop="description" content="以狂热的态度面对一切事物，用不畏惧的态度玩乐生活。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bug++">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/a187.html" class="post-title-link" itemprop="url">H3C华三无线用户VLAN内二层隔离</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-14 19:24:20" itemprop="dateCreated datePublished" datetime="2020-06-14T19:24:20+08:00">2020-06-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-16 21:47:15" itemprop="dateModified" datetime="2020-06-16T21:47:15+08:00">2020-06-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/H3C/" itemprop="url" rel="index"><span itemprop="name">H3C</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/posts/a187.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/posts/a187.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="应用说明："><a href="#应用说明：" class="headerlink" title="应用说明："></a>应用说明：</h2><p>同一VLAN内，来自无线客户端的广播、组播报文会向所有放通该VLAN的AP上广播，而且在空间介质中广播报文通常使用最低速率进行发送。当广播报文比较多时，会占用较多的空口资源，在一定程度上影响到整个网络应用。<br>无线用户VLAN内二层隔离可以在AC上控制无线用户只能访问网关设备，而不能互相之间访问。这样可以大量减少整个WLAN网络的广播流量，提高WLAN网络的整体性能。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/a187.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1186,7 +1213,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

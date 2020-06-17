@@ -1,0 +1,1136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>ESXI 虚拟机开机提示VMDK重做日志已损坏问题</title>
+    <url>/posts/7c3b.html</url>
+    <content><![CDATA[<p>回答问题 vmdk 重做日志已损坏，如果该问题仍未解决，请放弃该重做日志。<br>解决方法：断电不正常关机造成虚拟机快照关联丢失混乱，删除该虚拟机所有快照即可解决此问题。</p>
+]]></content>
+      <categories>
+        <category>ESXI</category>
+      </categories>
+      <tags>
+        <tag>ESXI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AT命令，每天自动执行</title>
+    <url>/posts/f2ac.html</url>
+    <content><![CDATA[<p> 定时关机</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">at 22:00 &#x2F;every:M,T,W,Th,F,S,Su &quot;shutdown -s&quot;</span><br></pre></td></tr></table></figure>
+
+<p>同理，每天自动执行exe</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">at 22:00 &#x2F;every:M,T,W,Th,F,S,Su C:\abc.exe</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>批处理</category>
+      </categories>
+      <tags>
+        <tag>批处理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>H3C WAC 381 开启所有射频</title>
+    <url>/posts/792f.html</url>
+    <content><![CDATA[<p>开启所有射频 </p>
+<p><code>wlan radio enable</code> </p>
+]]></content>
+      <categories>
+        <category>H3C</category>
+      </categories>
+      <tags>
+        <tag>H3C</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>H3C WAC360 361实现AP定时重启</title>
+    <url>/posts/9b41.html</url>
+    <content><![CDATA[<p>为了实现AP每天定时重启，了解到AP在找不到AC的情况下会自动重启寻找,我们telnet AC执行以下命令，每天定时重启AC即可。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#</span><br><span class="line">job radio_diable</span><br><span class="line">  view system</span><br><span class="line">  time 1 repeating at 03:00 command wlan radio disable all</span><br><span class="line">  time 2 repeating at 03:00 command y</span><br><span class="line">job radio_enable</span><br><span class="line">  view system</span><br><span class="line">  time 1 repeating at 03:03 command wlan radio enable all</span><br><span class="line">  time 2 repeating at 03:03 command y</span><br><span class="line">上面是定时关闭射频</span><br><span class="line">下面是定时重启</span><br><span class="line">#</span><br><span class="line">job reboot_everyday</span><br><span class="line">  view monitor</span><br><span class="line">  time 1 repeating at 03:10 command reboot</span><br><span class="line">  time 2 repeating at 03:10 command y</span><br><span class="line">#</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>H3C</category>
+      </categories>
+      <tags>
+        <tag>H3C</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>H3C 查看DHCP地址池设置租期</title>
+    <url>/posts/c8b6.html</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[H3C]display dhcp server ip-in-use pool VLAN90 查看地址池</span><br><span class="line">&lt;H3C&gt;reset dhcp server ip-in-use pool VLAN90 释放地址池</span><br><span class="line">[H3C]dhcp server ip-pool vlan90 </span><br><span class="line">[H3C-dhcp-pool-vlan90]expired day 0 hour 1 设置租期</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>H3C</category>
+      </categories>
+      <tags>
+        <tag>H3C</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>H3C华三无线用户VLAN内二层隔离</title>
+    <url>/posts/a187.html</url>
+    <content><![CDATA[<h2 id="应用说明："><a href="#应用说明：" class="headerlink" title="应用说明："></a>应用说明：</h2><p>同一VLAN内，来自无线客户端的广播、组播报文会向所有放通该VLAN的AP上广播，而且在空间介质中广播报文通常使用最低速率进行发送。当广播报文比较多时，会占用较多的空口资源，在一定程度上影响到整个网络应用。<br>无线用户VLAN内二层隔离可以在AC上控制无线用户只能访问网关设备，而不能互相之间访问。这样可以大量减少整个WLAN网络的广播流量，提高WLAN网络的整体性能。</p>
+<a id="more"></a>
+
+<h2 id="配置说明："><a href="#配置说明：" class="headerlink" title="配置说明："></a>配置说明：</h2><h3 id="【开启VLAN隔离】"><a href="#【开启VLAN隔离】" class="headerlink" title="【开启VLAN隔离】"></a>【开启VLAN隔离】</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">user-isolation vlan vlan-list enable</span><br></pre></td></tr></table></figure>
+
+<p>【参数】<br>vlan-list：vlan-list为VLAN列表，其表示方式为vlan-list = { vlan-id [ to vlan-id ] }&amp;&lt;1-10&gt;。其中，vlan-id为指定VLAN的编号，取值范围为1～4094。&amp;&lt;1-10&gt;表示前面的参数最多可以输入10次。</p>
+<h3 id="【设置允许MAC】"><a href="#【设置允许MAC】" class="headerlink" title="【设置允许MAC】"></a>【设置允许MAC】</h3><p>一般为网关MAC地址否则上不了网</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">user-isolation vlan vlan-list permit-mac mac-list</span><br></pre></td></tr></table></figure>
+
+<p>【参数】<br>vlan-list：在指定VLAN内配置用户隔离功能。vlan-list为VLAN列表，表示多个VLAN。其表示方式为vlan-list＝{ vlan-id [ to vlan-id ] }&amp;&lt;1-10&gt;，其中，vlan-id为指定VLAN的编号，取值范围为1～4094。&amp;&lt;1-10&gt;表示前面的参数最多可以输入10次。<br>mac-list：允许的MAC地址列表，格式为H-H-H，在一个VLAN内最多可以配置16个允许的MAC地址，该MAC地址不允许为广播或组播地址。</p>
+<h3 id="【举例】"><a href="#【举例】" class="headerlink" title="【举例】"></a>【举例】</h3><p># 在VLAN 1上开启用户隔离功能，允许访问MAC地址为00bb-ccdd-eeff和0022-3344-5566的设备（允许的MAC地址通常为网关MAC地址）。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;system-view&gt;</span><br><span class="line">[sysname] user-isolation vlan 1 enable</span><br><span class="line">[sysname] user-isolation vlan 1 permit-mac 00bb-ccdd-eeff 0022-3344-5566</span><br></pre></td></tr></table></figure>
+
+
+<p>无线用户VLAN内二层隔离可以在AC上控制无线用户只能访问网关设备，而不能互相之间访问。同时，通过配置undo user-isolation permit broadcast禁止有线用户（permit-mac允许的mac地址除外）发送广播、组播报文给无线用户，无线用户到有线用户的广播、组播报文不受限制。这样可以大量减少整个WLAN网络的广播流量，提高WLAN网络的整体性能。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[AC] undo user-isolation permit-broadcast</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>H3C</category>
+      </categories>
+      <tags>
+        <tag>H3C</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IP-GUARD V4 互普威盾 最新版本 和 SQL 2008数据库安装设置视频教程</title>
+    <url>/posts/ede4.html</url>
+    <content><![CDATA[<p>授权(有偿)请联系QQ号或者发邮件<a href="mailto:1186047@qq.com">1186047@qq.com</a> 仅供学习交流使用,如长期使用请支持正版。</p>
+<p>IP-GUARD数据库安装详细指导手册</p>
+<p><a href="https://www.0xbug.com/posts/2551.html">https://www.0xbug.com/posts/2551.html</a></p>
+<a id="more"></a>
+
+<p>安装IP-GUARD之前要安装数据库（数据库可以和服务器一起安装，也可以单独安装数据库和服务器）</p>
+<p>安装数据库：（建议安装SQL Server 2008 R2 Express 因为它的容量限制比较大）以SQL Server 2008 R2 Express</p>
+<p>下载地址：</p>
+<p><a href="http://download.microsoft.com/download/9/4/8/948966AB-52CA-40F1-8051-0216481065E6/SQLEXPRADV_x64_CHS.exe" target="_blank" rel="noopener">http://download.microsoft.com/download/9/4/8/948966AB-52CA-40F1-8051-0216481065E6/SQLEXPRADV_x64_CHS.exe</a></p>
+<p>Bilibili：</p>
+<iframe src="//player.bilibili.com/player.html?aid=541077157&bvid=BV1Hi4y1G7i1&cid=202700654&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+<p>Youtube：</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/zlJR9abwRgE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IP-GUARD数据库安装详细指导手册</title>
+    <url>/posts/2551.html</url>
+    <content><![CDATA[<p>安装IP-GUARD之前要安装数据库（数据库可以和服务器一起安装，也可以单独安装数据库和服务器）</p>
+<p>安装数据库：（建议安装SQL Server 2008 R2 Express 因为它的容量限制比较大）以SQL Server 2008 R2 Express</p>
+<p>下载地址：</p>
+<p><a href="http://download.microsoft.com/download/9/4/8/948966AB-52CA-40F1-8051-0216481065E6/SQLEXPRADV_x64_CHS.exe" target="_blank" rel="noopener">http://download.microsoft.com/download/9/4/8/948966AB-52CA-40F1-8051-0216481065E6/SQLEXPRADV_x64_CHS.exe</a></p>
+ <a id="more"></a>
+
+<p>第一步：在安装SQL Server 2008 R2 Express时首先要安装</p>
+<p>Windwos Installer 4.5</p>
+<p>.NET Framework 3.5</p>
+<p>Windwos PowerShell 1.0</p>
+<p>（但是一般只需要安装.NET Framework 3.5就可以）安装这些插件可以在控制面板安装也可以下载安装包安装。</p>
+<p>第二步：运行SQL Server 2008 R2 Express的安装程序，进入SQL安装中心；</p>
+<p>第三步：在“安装”步骤，选择“全新安装或向现有安装添加功能”，如：</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/2ef353055083bd49.png" alt=""></p>
+<p>第四步：接受用户许可条款，并点击 下一步 ： 注意要选择SYSTEM否则写不了数据库。</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/1fa50286aa8cfde9.png" alt=""></p>
+<p>第五步：默认功能全新直接点击 下一步 ：</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/8330739e3807a0a7.png" alt=""></p>
+<p>第六步：选择默认实例 然后点下一步 ：</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/e45468d6754701fe.png" alt=""></p>
+<p>第七步：在服务器配置中，选择 SQL Server Database Engine 的账户名为 “NT AUTHORITY\SYSTEM”,然后点击 下一步：</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/c2c81c857951ab76.png" alt=""></p>
+<p>第八步：选择Windows 身份验证模式 （如果你选择混合模式需要设置SA密码然后点击添加），然后点下一步：</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/49bbf2775591d713.png" alt=""></p>
+<p>第九步：选择安装但不配置报表服务器，点击 下一步 ：</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/181eb88597e0f87f.png" alt=""></p>
+<p>第十步：直接点击下一步 完成。</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/d846c2e736edf5ff.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IP-guard/互普威盾服务器建议配置</title>
+    <url>/posts/1e33.html</url>
+    <content><![CDATA[<h1 id="一、IP-guard服务器建议配置"><a href="#一、IP-guard服务器建议配置" class="headerlink" title="一、IP-guard服务器建议配置"></a>一、IP-guard服务器建议配置</h1><table>
+<thead>
+<tr>
+<th>主服务器规模</th>
+<th>建议配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100以内</td>
+<td>CPU：双核或双CPU内存：6G内存存储：500GB或以上的可用硬盘空间网卡：1000Mbps</td>
+</tr>
+<tr>
+<td>100-500</td>
+<td>CPU：双核或双CPU内存：8G内存存储：1T或以上的可用硬盘空间网卡：1000Mbps</td>
+</tr>
+<tr>
+<td>500-1000</td>
+<td>CPU：4核CPU内存：8G内存存储：1T或以上的可用硬盘空间网卡：1000Mbps</td>
+</tr>
+<tr>
+<td>1000-3000</td>
+<td>CPU：4核CPU内存：16G内存存储：2T以上可用硬盘空间或使用硬盘阵列网卡：1000Mbps</td>
+</tr>
+<tr>
+<td>3000-5000</td>
+<td>CPU：8核CPU内存：32G内存存储：2T以上可用硬盘空间或使用硬盘阵列网卡：1000Mbps</td>
+</tr>
+<tr>
+<td>5000以上</td>
+<td>CPU：16核CPU内存：64G内存存储：4T以上可用硬盘空间或使用硬盘阵列网卡：1000Mbps</td>
+</tr>
+</tbody></table>
+<h1 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h1><h1 id="二、备份-备用服务器建议配置"><a href="#二、备份-备用服务器建议配置" class="headerlink" title="二、备份/备用服务器建议配置"></a>二、备份/备用服务器建议配置</h1><table>
+<thead>
+<tr>
+<th>服务器类型</th>
+<th>建议配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>加密备份服务器</td>
+<td>CPU：4核CPU内存：8G内存或以上存储：1T以上可用硬盘空间或使用硬盘阵列网卡：1000Mbps</td>
+</tr>
+<tr>
+<td>加密备用服务器</td>
+<td>CPU：双核CPU内存：4G内存或以上存储：500G以上可用硬盘空间或使用硬盘阵列网卡：1000Mbps</td>
+</tr>
+</tbody></table>
+<h1 id="三、IP-guard-数据量分析"><a href="#三、IP-guard-数据量分析" class="headerlink" title="三、IP-guard 数据量分析"></a>三、IP-guard 数据量分析</h1><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>数据量(每台每天)</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>日志操作数据</td>
+<td>5MB</td>
+<td>包含文档操作、程序运行、上网浏览等各项操作日志</td>
+</tr>
+<tr>
+<td>屏幕历史数据</td>
+<td>30~50MB</td>
+<td>以每天工作8小时，每15秒记录间隔计算</td>
+</tr>
+<tr>
+<td>文档备份数据</td>
+<td>视实际情况而定</td>
+<td>包括文档操作备份，邮件附件备份和打印图像的备份。因为不同组织不同人员的操作内容可能会相差很大，所以该部分数据需视情况而定。</td>
+</tr>
+</tbody></table>
+<p>日志记录数据只是指审计日志，不包括屏幕历史、文档备份、打印备份和邮件附件备份。备份数据大小受备份的文件大小、操作频率等每个用户可能不同，需根据客户具体数据再做评估，建议用户根据记录下的一段时间内实际的平均数据量来计算。<br>如果管理规模有100台计算机，假设所有功能都开启，文档备份的每天平均数据是每台计算机10M，那么每天产生的总数据会是：<br>   100 * （5+10+ 40（取屏幕平均值））= 5500M = 5.5GB</p>
+<h1 id="四、IP-guard网络负荷分析"><a href="#四、IP-guard网络负荷分析" class="headerlink" title="四、IP-guard网络负荷分析"></a>四、IP-guard网络负荷分析</h1><table>
+<thead>
+<tr>
+<th></th>
+<th>100</th>
+<th>200</th>
+<th>500</th>
+<th>1000</th>
+<th>2000</th>
+<th>3000</th>
+<th>5000</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>服务器网络负荷(Mbps)</strong></td>
+<td>1.1</td>
+<td>2.2</td>
+<td>5.5</td>
+<td>11.0</td>
+<td>22.0</td>
+<td>33.0</td>
+<td>55.0</td>
+</tr>
+<tr>
+<td><strong>服务器网络负荷 (100MB网络中所占用网络带宽百分比)</strong></td>
+<td>1.1%</td>
+<td>2.2%</td>
+<td>5.5%</td>
+<td>11%</td>
+<td>22%</td>
+<td>33%</td>
+<td>55%</td>
+</tr>
+</tbody></table>
+<h1 id="五、IP-guard运行时所占系统资源说明"><a href="#五、IP-guard运行时所占系统资源说明" class="headerlink" title="五、IP-guard运行时所占系统资源说明"></a>五、IP-guard运行时所占系统资源说明</h1><h2 id="1-IP-guard服务器"><a href="#1-IP-guard服务器" class="headerlink" title="1. IP-guard服务器"></a>1. IP-guard服务器</h2><table>
+<thead>
+<tr>
+<th><strong><em>\</em>工作站数量**</strong></th>
+<th><strong><em>\</em>进程名称**</strong></th>
+<th><strong><em>\</em>CPU平均使用率**</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100</td>
+<td>OServer3.exe</td>
+<td>&lt;5%</td>
+</tr>
+<tr>
+<td>Sqlservr.exe</td>
+<td>&lt;40%</td>
+<td></td>
+</tr>
+<tr>
+<td>200</td>
+<td>Oserver3.exe</td>
+<td>&lt;5%</td>
+</tr>
+<tr>
+<td>Sqlservr.exe</td>
+<td>&lt;40%</td>
+<td></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Oserver3.exe</td>
+<td>&lt;10%</td>
+</tr>
+<tr>
+<td>Sqlservr.exe</td>
+<td>&lt;40%</td>
+<td></td>
+</tr>
+<tr>
+<td>1000</td>
+<td>Oserver3.exe</td>
+<td>&lt;10%</td>
+</tr>
+<tr>
+<td>Sqlservr.exe</td>
+<td>&lt;40%</td>
+<td></td>
+</tr>
+<tr>
+<td>2000</td>
+<td>Oserver3.exe</td>
+<td>&lt;40%</td>
+</tr>
+<tr>
+<td>Sqlservr.exe</td>
+<td>&lt;40%</td>
+<td></td>
+</tr>
+<tr>
+<td>3000</td>
+<td>Oserver3.exe</td>
+<td>&lt;40%</td>
+</tr>
+<tr>
+<td>Sqlservr.exe</td>
+<td>&lt;40%</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="2-IP-guard控制台"><a href="#2-IP-guard控制台" class="headerlink" title="2. IP-guard控制台"></a>2. IP-guard控制台</h2><table>
+<thead>
+<tr>
+<th>进程名称</th>
+<th>CPU平均使用率</th>
+<th>内存占用量</th>
+<th>高峰内存使用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OConsole3.exe</td>
+<td>&lt;2%</td>
+<td>12,464K</td>
+<td>28,258K</td>
+</tr>
+</tbody></table>
+<h2 id="3-IP-guard客户端"><a href="#3-IP-guard客户端" class="headerlink" title="3. IP-guard客户端"></a>3. IP-guard客户端</h2><table>
+<thead>
+<tr>
+<th>进程名称</th>
+<th>CPU平均使用率</th>
+<th>内存占用量</th>
+<th>高峰内存使用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Winrdlv3.exe</td>
+<td>&lt;2%</td>
+<td>21,164K</td>
+<td>36,138K</td>
+</tr>
+</tbody></table>
+<p>客户端因功能模块不同会运行多个进程，普通版客户端会运行3个Winrdlv3.exe进程，加密客户端会运行5个Winrdlv3.exe进程。</p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IP-guard互普威盾系统维护培训</title>
+    <url>/posts/b771.html</url>
+    <content><![CDATA[<h1 id="服务器维护-常规维护"><a href="#服务器维护-常规维护" class="headerlink" title="服务器维护_常规维护"></a>服务器维护_常规维护</h1><h2 id="服务器目录及相关程序说明"><a href="#服务器目录及相关程序说明" class="headerlink" title="服务器目录及相关程序说明"></a>服务器目录及相关程序说明</h2><p><img src="http://img.0xbug.com:88/imgs/2020/06/497b4b934703f150.png" alt=""></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h2 id="服务器目录"><a href="#服务器目录" class="headerlink" title="服务器目录"></a>服务器目录</h2><p>数据文件（目录）说明</p>
+<table>
+<thead>
+<tr>
+<th>OCULAR3.MDF OCULAR3_Log.LDF</th>
+<th><strong>文件</strong></th>
+<th><strong>主数据库文件（保存组织架构，策略，分类库等）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>DATA</strong></td>
+<td><strong>文件夹</strong></td>
+<td><strong>日志数据库文件保存目录</strong></td>
+</tr>
+<tr>
+<td><strong>OCULAR3_20120503.BAK</strong></td>
+<td><strong>文件</strong></td>
+<td><strong>主数据库备份文件</strong></td>
+</tr>
+<tr>
+<td><strong>OCULAR3_DATA.20120516.MDF OCULAR3_DATA.20120516_Log.LDF</strong></td>
+<td><strong>文件</strong></td>
+<td><strong>日志数据库文件（按天存储）</strong></td>
+</tr>
+<tr>
+<td><strong>ZTEMP</strong></td>
+<td><strong>文件夹</strong></td>
+<td><strong>临时数据文件目录</strong></td>
+</tr>
+</tbody></table>
+<p>客户端升级文件说明</p>
+<table>
+<thead>
+<tr>
+<th><strong>AKernel3.e32</strong></th>
+<th><strong>文件</strong></th>
+<th><strong>客户端打包文件</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Upgrade3.oau</strong></td>
+<td><strong>文件</strong></td>
+<td><strong>客户端升级文件</strong></td>
+</tr>
+</tbody></table>
+<p>程序文件说明</p>
+<table>
+<thead>
+<tr>
+<th><strong>OServer.exe</strong></th>
+<th><strong>服务器程序</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>OServer3.ini</strong></td>
+<td><strong>服务器配置文件</strong></td>
+</tr>
+<tr>
+<td><strong>AInstGen.exe</strong></td>
+<td><strong>创建客户端程序</strong></td>
+</tr>
+<tr>
+<td><strong>OControl3.exe</strong></td>
+<td><strong>服务控制器程序</strong></td>
+</tr>
+<tr>
+<td><strong>OMailRpt.exe</strong></td>
+<td><strong>邮件报告服务器程序</strong></td>
+</tr>
+<tr>
+<td><strong>OUpdate3.exe</strong></td>
+<td><strong>补丁管理服务器程序</strong></td>
+</tr>
+<tr>
+<td><strong>RInst3.exe</strong></td>
+<td><strong>远程安装客户端程序</strong></td>
+</tr>
+</tbody></table>
+<h2 id="数据备份与查看"><a href="#数据备份与查看" class="headerlink" title="数据备份与查看"></a>数据备份与查看</h2><p>控制台数据备份和查看</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/4c2087e10e1a34b4.png" alt=""></p>
+<p>手动备份与查看（操作之前先停止SQL SERVER、IP-GUARD威盾服务器）</p>
+<p>手动备份<br>    复制或剪切数据目录中需要备份时间段的数据库文件到备份目录</p>
+<p>手动还原<br>    将需要查看时间段的数据库文件从备份目录中复制到当前数据目录</p>
+<h2 id="数据清除"><a href="#数据清除" class="headerlink" title="数据清除"></a>数据清除</h2><p>1、控制台设置自动清除<br>控制台-工具-选项-服务器设置-数据清除</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/900961cd79148247.png" alt=""></p>
+<p>2、手动清除<br>停止服务器和SQL SERVER后删除DATA目录下对应日期的数据库文件</p>
+<h2 id="服务器无法启动"><a href="#服务器无法启动" class="headerlink" title="服务器无法启动"></a>服务器无法启动</h2><p>服务被注销，右下角服务器图标中显示为空</p>
+<p>服务器的授权失效（序列号失效）</p>
+<p>SQL SERVER异常或者威盾数据库损坏</p>
+<h2 id="数据库置疑处理"><a href="#数据库置疑处理" class="headerlink" title="数据库置疑处理"></a>数据库置疑处理</h2><p>症状<br>         数据库状态显示为置疑（或可疑）<br>原因分析<br>          SQL服务意外退出导致数据库置疑<br>          数据库文件所在的磁盘分区空间不足<br>          数据库文件组已满<br>          一些非法的操作可能导致数据库置疑。<br>修复数据库<br>数据库无法修复的处理</p>
+<h2 id="迁移服务器"><a href="#迁移服务器" class="headerlink" title="迁移服务器"></a>迁移服务器</h2><p><img src="http://img.0xbug.com:88/imgs/2020/06/0d6d6f6c73f9177d.png" alt=""></p>
+<h2 id="其它常见问题"><a href="#其它常见问题" class="headerlink" title="其它常见问题"></a>其它常见问题</h2><p>服务器时间异常报警<br>服务器空间报警<br>服务器机器重装系统</p>
+<h1 id="客户端维护-常规维护"><a href="#客户端维护-常规维护" class="headerlink" title="客户端维护_常规维护"></a>客户端维护_常规维护</h1><h2 id="客户端安装后在控制台上没有显示"><a href="#客户端安装后在控制台上没有显示" class="headerlink" title="客户端安装后在控制台上没有显示"></a>客户端安装后在控制台上没有显示</h2><p>原因分析<br>      服务器验证客户端的身份不通过<br>         服务器和客户端之间的网络通讯有故障<br>         客户端程序没有正常运行<br>解决方法<br>        1，确认客户端是否正常运行<br>     2，确认客户端与服务器的网络通讯是否正常<br>     3，登陆控制台检查是否有服务器与客户端通讯相关的事件日志<br>     4，检查客户端是不是被内网的其它威盾服务器接管了</p>
+<h2 id="客户端在控制台上显示离线状态"><a href="#客户端在控制台上显示离线状态" class="headerlink" title="客户端在控制台上显示离线状态"></a>客户端在控制台上显示离线状态</h2><p>原因分析<br>1）防火墙屏蔽了客户端与服务器通信的端口<br>2）安装了客户端后重装或者还原了系统<br>3）客户端被非法卸载或通过客户端工具卸载</p>
+<p>客户端离线报警<br>控制台上设置客户端离线指定天数后报警</p>
+<h2 id="客户端ID冲突"><a href="#客户端ID冲突" class="headerlink" title="客户端ID冲突"></a>客户端ID冲突</h2><p>症状<br>        控制台弹出“客户端登录冲突”报警<br>原因分析<br>         1、客户端机器识别信息（硬盘ID、网卡地址）获取失败<br>         2、计算机更换了硬盘或网卡<br>解决方法<br>     1，计算机管理窗口中查找有冲突的计算机<br>      2，查看冲突客户端当前正在生效的识别信息，并确定需要重新指定  的客户端信息<br>      3，重新指定客户端ID</p>
+<h2 id="客户端策略不生效"><a href="#客户端策略不生效" class="headerlink" title="客户端策略不生效"></a>客户端策略不生效</h2><p>威盾详细版本号<br>确认策略设置是否正确<br>是否有用户策略<br>确认策略是否已经下发到客户端<br>开启调试开关获取信息（不同模块的调试信息不同）<br>确认是否之前出现过？新版本是否已经修复</p>
+<h2 id="客户端日志不记录"><a href="#客户端日志不记录" class="headerlink" title="客户端日志不记录"></a>客户端日志不记录</h2><p>威盾详细版本号<br>全部不记录还是部分不记录<br>服务器操作系统的应用程序日志中是否有报错<br>开启调试开关获取信息<br>确认是否之前出现过？新版本是否已经修复</p>
+<h2 id="加密系统无法正常启动"><a href="#加密系统无法正常启动" class="headerlink" title="加密系统无法正常启动"></a>加密系统无法正常启动</h2><p>威盾详细版本号<br>是否已经启用加密授权<br>查看客户端桌面右下角加密托盘图标显示状态<br>检查是否安装了加密客户端<br>加密系统客户端程序是否在运行<br>是否设置了隐藏加密托盘图标策略</p>
+<h2 id="保存文件没有加密"><a href="#保存文件没有加密" class="headerlink" title="保存文件没有加密"></a>保存文件没有加密</h2><p>威盾详细版本号<br>是否启用客户端加密授权并且加密托盘图标显示正常<br>保存文件的进程是否授权进程<br>工作模式是否设置为只解密不加密<br>是否有未授权进程参与文件保存过程</p>
+<h2 id="加密文件无法打开"><a href="#加密文件无法打开" class="headerlink" title="加密文件无法打开"></a>加密文件无法打开</h2><p>威盾详细版本号<br>打开文件的进程是否授权进程<br>是否设置软件为授权软件时该软件已经在运行<br>系统盘剩余空间是否足够<br>文件是否能够手工解密<br>是否能够直接打开解密后的文件<br>尽快从缓冲区中进行恢复</p>
+<h2 id="启动加密后某些程序运行异常"><a href="#启动加密后某些程序运行异常" class="headerlink" title="启动加密后某些程序运行异常"></a>启动加密后某些程序运行异常</h2><p>威盾详细版本号<br>禁用客户端的加密授权是否正常<br>扫描程序相关目录下的文件并解密<br>取消软件授权后是否正常<br>过滤所有的文件是否正常<br>通过客户端配置策略过滤HooKAPI<br>通过客户端配置策略屏蔽主动注入</p>
+<h2 id="客户端常用工具"><a href="#客户端常用工具" class="headerlink" title="客户端常用工具"></a>客户端常用工具</h2><p>离线卸载客户端工具<br>离线清除策略工具<br>屏蔽客户端功能模块工具<br>清除IP/MAC绑定信息工具<br>基本策略恢复工具</p>
+<h1 id="其它维护-常见问题"><a href="#其它维护-常见问题" class="headerlink" title="其它维护_常见问题"></a>其它维护_常见问题</h1><h2 id="控制台无法登陆"><a href="#控制台无法登陆" class="headerlink" title="控制台无法登陆"></a>控制台无法登陆</h2><p> 检查ip、账号、密码是否正确<br> 检查服务器是否正常启动<br> 检查服务器的8236端口是否能正常连通<br> 检查是否被杀毒软件或防火墙禁止了<br> 检查控制台版本是否与服务器版本匹配。 </p>
+<h2 id="忘记控制台密码"><a href="#忘记控制台密码" class="headerlink" title="忘记控制台密码"></a>忘记控制台密码</h2><p>如果记得admin密码，可以登陆修改其他账户密码<br>清除sys_user表（会同时清除其他账户信息）</p>
+<h2 id="控制台上查询不到数据"><a href="#控制台上查询不到数据" class="headerlink" title="控制台上查询不到数据"></a>控制台上查询不到数据</h2><p>  检查控制台和服务器版本是否一致<br>  检查服务器应用程序日志是否报错<br>  确认所有数据查询不到还是部分数据<br>  确认登陆账户是否有权限<br>  是否通过外网方式连接服务器<br>  服务器本地控制台登录能否查询</p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OM200G 单方面无法听不到对方声音</title>
+    <url>/posts/ada2.html</url>
+    <content><![CDATA[<p>电话系统OM200G，座机拨打外线，能听到外线声音，外线听不到座机声音。<br>解决方法：路由器阻挡了数据包，多线路造成改成单线路，或着投诉电信把所有线路改成桥接模式。</p>
+]]></content>
+      <categories>
+        <category>讯时</category>
+      </categories>
+      <tags>
+        <tag>讯时</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WAC 381设置时间同步</title>
+    <url>/posts/c1b5.html</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">clock timezone beijing add 08:00:00</span><br><span class="line">clock protocol ntp</span><br><span class="line">ntp-service enable</span><br><span class="line">ntp-service unicast-server 198.60.22.240</span><br><span class="line">ntp-service refclock-master 2</span><br><span class="line">display ntp-service status</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>H3C</category>
+      </categories>
+      <tags>
+        <tag>H3C</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Planmeca 牙科拍片程序运行闪退</title>
+    <url>/posts/b469.html</url>
+    <content><![CDATA[<p>问题：运行Romexis直接闪退，无论重新安装软件还是java都没有效果。<br>解决：最后查看目录下的日志分析是显卡驱动问题，卸载显卡驱动重新安装显卡驱动即可。</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/ca8c9165e6305239.png" alt=""></p>
+<a id="more"></a>
+
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/15b851d116608f10.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>Planmeca</category>
+      </categories>
+      <tags>
+        <tag>Planmeca</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WAC381 定时重启</title>
+    <url>/posts/7295.html</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[AC] scheduler job reboot-sys</span><br><span class="line"></span><br><span class="line"> [AC- job reboot-sys ] command 1 reboot</span><br><span class="line"></span><br><span class="line"> [AC- job reboot-sys ] command 2 y</span><br></pre></td></tr></table></figure>
+
+<p> 配置定时执行任务，使设备在每天20:00重启系统：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[AC] scheduler schedule reboot</span><br><span class="line"></span><br><span class="line"> [AC-schedule-reboot] job reboot-sys</span><br><span class="line"></span><br><span class="line"> [AC-schedule-reboot] time repeating at20:00</span><br><span class="line"></span><br><span class="line"> [AC-schedule-reboot] quit</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>H3C</category>
+      </categories>
+      <tags>
+        <tag>H3C</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/posts/3eeb.html</url>
+    <content><![CDATA[<p>用HEXO搭建了个博客。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>windows10下AMD显卡驱动无法安装的解决方法</title>
+    <url>/posts/d14e.html</url>
+    <content><![CDATA[<p> 具体参考：<a href="https://jingyan.baidu.com/article/7908e85cb3701aaf481ad2d9.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/7908e85cb3701aaf481ad2d9.html</a><br> 问题：HD集成显卡带AMD显卡的笔记本在安装完系统以后无论使用官方下载的AMD显卡还是各种驱动软件均无法正常驱动。<br> 解决：先把HD集成显卡更新基本适配器即可正常安装AMD独立显卡，然后再重新驱动HD显卡即可。</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/5dcbc9d8d80be1f6.jpg" alt=""></p>
+]]></content>
+      <categories>
+        <category>WINDOWS</category>
+      </categories>
+      <tags>
+        <tag>WINDOWS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>中控考勤702 wifi模块无法连接WIFI</title>
+    <url>/posts/abb1.html</url>
+    <content><![CDATA[<p>问题：连上WIFI以后掉线不会在自动连上WIFI，或者根本搜索不到WIFI。<br>解决：修改h3c 2.g频率 设置，关闭禁止802.11b以及仅802.11n，开启82.11g和802.11n保护。</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/57c5476947eb2133.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>H3C</category>
+      </categories>
+      <tags>
+        <tag>H3C</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用批处理打开应用程序</title>
+    <url>/posts/5872.html</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@echo off   :关闭回显</span><br><span class="line"></span><br><span class="line">start  D:\dev_tool\nginx-1.9.9\nginx.exe</span><br><span class="line"></span><br><span class="line">:如果路径在红有空格可以直接用： start  &#x2F;d  “路径”空格  程序名  。&#x2F;d 是指定路径的意思</span><br><span class="line"></span><br><span class="line">start  &#x2F;d &quot;D:\Program Files (x86)\JetBrains\IntelliJ IDEA 15.0.4\bin\&quot; idea.exe</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>批处理</category>
+      </categories>
+      <tags>
+        <tag>批处理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安卓手机开机一直转圈圈</title>
+    <url>/posts/904a.html</url>
+    <content><![CDATA[<p>当安装了不当的软件APP造成冲突的情况下，开机的时候一直处于LOGO转圈圈的状态下无法正常开机。</p>
+<p>解决方法：开机的时候反复按音量 -  即可进入安全模式状态开机然后删除造成冲突的APP 重启即可。</p>
+]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>打印机共享连接的时候，提示操作失败，错误为0x000003e3</title>
+    <url>/posts/bf4.html</url>
+    <content><![CDATA[<p><img src="http://img.0xbug.com:88/imgs/2020/06/89d0611f9b3c253b.jpg" alt=""></p>
+<p>在连接打印机的电脑上，把guest用户添加到users用户组即可。</p>
+]]></content>
+      <categories>
+        <category>打印机</category>
+      </categories>
+      <tags>
+        <tag>打印机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>打印机共享连接的时候，提示操作失败，错误为0x00004005</title>
+    <url>/posts/69ba.html</url>
+    <content><![CDATA[<p><img src="http://img.0xbug.com:88/imgs/2020/06/42a5d6f465a997c7.png" alt=""><br><img src="http://img.0xbug.com:88/imgs/2020/06/0f5fae4c7660b01b.png" alt=""><br><img src="http://img.0xbug.com:88/imgs/2020/06/bfe7eed0c8e63b8e.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>打印机</category>
+      </categories>
+      <tags>
+        <tag>打印机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>爱快可以远程桌面无法连接共享打印</title>
+    <url>/posts/9dcb.html</url>
+    <content><![CDATA[<p>场景：通过爱快路由器进行L2TP进行VPN对接，并且设置好相关路由表和ACL。两端内网可以互访通过远程桌面并且可以共享打印机。</p>
+<p>问题：可以远程桌面，但是无法访问共享，造成共享打印无法打印。检查路由表及相关策略没有问题？</p>
+<p>解决：断开L2TP连接，重新拨号认证即可。 </p>
+]]></content>
+      <categories>
+        <category>爱快</category>
+      </categories>
+      <tags>
+        <tag>爱快</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>桌面图标删除后需要刷新才会消失</title>
+    <url>/posts/6689.html</url>
+    <content><![CDATA[<p> 一般出现这个问题大多是系统没有这个设置，我们要在注册表添加一条一项。首先在运行输入regedit，然后依次打开HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control 在control上面右击选择新建 - 项，命名为UPData，然后在UPData上面在右击依然是新建 - 项，命名为UpDataModel。 然后注销下系统或者重新启动下Windows资源管理器</p>
+]]></content>
+      <categories>
+        <category>WINDOWS</category>
+      </categories>
+      <tags>
+        <tag>WINDOWS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>皮肤visa检测软件找不到新增顾客</title>
+    <url>/posts/f27c.html</url>
+    <content><![CDATA[<p>勾选捕获并查看即可。</p>
+<img src="http://img.0xbug.com:88/imgs/2020/06/bae86affa82c98da.jpg" style="zoom:35%;" />]]></content>
+      <categories>
+        <category>VISA</category>
+      </categories>
+      <tags>
+        <tag>VISA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网络频繁掉线</title>
+    <url>/posts/c7a5.html</url>
+    <content><![CDATA[<p> ping 网关 注意观察TLL值 内网IP地址冲突，TTL值出现255。</p>
+<img src="http://img.0xbug.com:88/imgs/2020/06/96b8fcbdf1f6421d.png" style="zoom:100%;" />]]></content>
+      <categories>
+        <category>网络</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>连接打印机，提示另一台打印机或与该打印机同名的打印机已经存在。</title>
+    <url>/posts/322b.html</url>
+    <content><![CDATA[<p><img src="http://img.0xbug.com:88/imgs/2020/06/32ad065bd31c0c93.jpg" alt=""></p>
+<p>删除注册表HKEY_LOCAL_MACHINE\SYSTEM\ControlSetoo1\Control\Print\Printers里面对应的打印机。</p>
+]]></content>
+      <categories>
+        <category>打印机</category>
+      </categories>
+      <tags>
+        <tag>打印机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>雅马哈PX5单边没声音</title>
+    <url>/posts/cf0f.html</url>
+    <content><![CDATA[<p>问题:调音台音响均正常只有单边出现没声音，检查功放发现一边屏幕提示mute静音状态。<br>解决:同时摁住这两个按钮即可解决。</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/effdc82d06174d0f.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>雅马哈</category>
+      </categories>
+      <tags>
+        <tag>雅马哈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IP-GUARD在计算机的安全模式下，加密客户端能否正常运行？</title>
+    <url>/posts/1769.html</url>
+    <content><![CDATA[<p>在安全模式下，加密客户端也能正常运行、正常加解密文件。</p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IP-GUARD安全密码有什么作用呢？</title>
+    <url>/posts/dc4d.html</url>
+    <content><![CDATA[<p>1、为防止他人使用此客户端非法解密文件，客户端应该要设置一个密码对文件解密或者外发进行控制，在每次解密或者外发时需要输入此密码；</p>
+<p>2、客户端离线后，使用安全密码登陆离线授权模式后才能正常使用离线加解密权限，增强客户端离线状态下加密文档的安全保护。</p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IP-GUARD禁止USB端口后，苹果手机无法充电问题</title>
+    <url>/posts/696.html</url>
+    <content><![CDATA[<p>苹果手机需要设置策略：1.设备控制策略，动作【允许】，勾选【可移动设备】，设备描述【<em>iphone</em>】；2.应用程序策略，动作【禁止】，应用程序：iTunes.exe和itools.exe。 </p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IP-GUARD软件冲突</title>
+    <url>/posts/c32c.html</url>
+    <content><![CDATA[<p>软件冲突<br>确认问题现象，具体描述：无法启动？某个功能异常？运行缓慢？</p>
+<ol>
+<li>首先需要确认问题是否与加密有关，还是与普通客户端有关，取消加密是否有问题。</li>
+</ol>
+<p>若取消加密依然有问题，则可能两种情况：</p>
+<p>1)       配置文件被加密</p>
+<p>通过控制台或客户端本地扫描工具扫描全盘或者程序相关目录下的文件（主要是C盘和软件安装目录）并一部分一部分的解密，直至全部解密。若解密到某一部分，软件恢复正常，则问题与解密的文件有关，需要细化到具体某一个（类）文件，在授权库中将导致问题的文件设置为配置文件或过滤文件</p>
+<p>2)       普通客户端冲突</p>
+<p>客户端配置屏蔽普通模块主动注入hookapi_disinj=1</p>
+<p>屏蔽普通模块HOOKAPI hookapi_disins=1</p>
+<ol start="2">
+<li>第一步取消加密问题消失，则启用加密，加密授权设置相应软件只解密不加密，重启程序。</li>
+</ol>
+<p>若设置只解密不加密问题消失，则可能有两种情况：</p>
+<p>1)       临时文件被加密（包括系统进程可能读取临时文件）</p>
+<p>通过注册表设置过滤（过滤C盘文件是否有问题、过滤用户配置文件目录是否有问题、过滤软件安装目录是否有问题），确认临时文件的位置，在授权库中将导致问题的文件设置为配置文件或过滤文件</p>
+<p>2)       未授权进程无法读写临时文件</p>
+<p>Procmon.exe检查是否有进程未授权，添加未授权进程授权</p>
+<ol start="3">
+<li>第二步只解密不加密问题依旧，则启用加密状态下取消软件加密授权，若问题消失，则可能是加密主动注入或HOOKAPI导致内部冲突，注册表设置过滤加密主动注入或HOOKAPI（确认导致问题函数）</li>
+</ol>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IP-GUARD用授权软件直接打开文档不做修改，此时能否自动加密？</title>
+    <url>/posts/cd82.html</url>
+    <content><![CDATA[<p>​    如果打开文档就直接加密的话，会导致软件打开速度慢，且软件的配置文件、非授权软件的文件、系统文件都会被加密，这会影响到非授权软件的运行，所以不会去实现这个功能。</p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IP-Guard系统维护中常见问题分析</title>
+    <url>/posts/5934.html</url>
+    <content><![CDATA[<h1 id="目-录"><a href="#目-录" class="headerlink" title="目  录"></a>目  录</h1><p>一、服务器维护<br>1.1        服务器目录文件<br>1.2        数据备份<br>1.3        数据还原<br>1.4        数据清除<br>1.5        服务器常见问题</p>
+<p>二、客户端维护<br>2.1        客户端安装后在控制台上没有显示<br>2.2        客户端在控制台上显示离线状态<br>2.3        客户端ID冲突<br>2.4        客户端策略不生效<br>2.5        客户端日志不记录<br>2.6        加密系统无法正常启动<br>2.7        保存文件没有加密<br>2.8        加密文件无法打开<br>2.9        启动加密后某些程序运行异常<br>2.10      常用工具</p>
+<p>三、其他维护<br>3.1        控制台无法登陆<br>3.2        忘记控制台密码<br>3.3        控制台上查询不到数据</p>
+<a id="more"></a>
+
+<h1 id="一、服务器维护"><a href="#一、服务器维护" class="headerlink" title="一、服务器维护"></a>一、服务器维护</h1><p>1.服务器目录文件</p>
+<h2 id="1-1数据文件-目录"><a href="#1-1数据文件-目录" class="headerlink" title="1.1数据文件(目录)"></a>1.1数据文件(目录)</h2><table>
+<thead>
+<tr>
+<th>OCULAR3.MDF<br/>OCULAR3_Log.LDF</th>
+<th>文件</th>
+<th>主数据库文件（保存组织架构，策略，分类库等）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>DATA</strong></td>
+<td><strong>文件夹</strong></td>
+<td><strong>日志数据库文件保存目录</strong></td>
+</tr>
+<tr>
+<td><strong>OCULAR3_20120503.BAK</strong></td>
+<td><strong>文件</strong></td>
+<td><strong>主数据库备份文件</strong></td>
+</tr>
+<tr>
+<td><strong>OCULAR3_DATA.20120516.MDF<br/>OCULAR3_DATA.20120516_Log.LDF</strong></td>
+<td><strong>文件</strong></td>
+<td><strong>日志数据库文件（按天存储）</strong></td>
+</tr>
+<tr>
+<td><strong>ZTEMP</strong></td>
+<td><strong>文件夹</strong></td>
+<td><strong>临时数据文件目录</strong></td>
+</tr>
+</tbody></table>
+<p>​    1.主数据库：OCULAR3.mdf和OCULAR3_log.ldf，包含账户、分组、分类等基本信息。</p>
+<p>​    2.日志数据库：DATA文件夹中的OCULAR3_DATA.[日期].mdf和OCULAR3_DATA.[日期]_Log.ldf，是每天客户端收集的日志信息。</p>
+<p>​    3.临时数据：ZTEMP文件夹中的*.ozs文件，客户端收集的数据先传到这，再转换成日志数据库文件。</p>
+<p>​        1.客户端升级文件说明</p>
+<p>​        2.IP-guard程序说明</p>
+<table>
+<thead>
+<tr>
+<th>AKernel3.e32</th>
+<th>客户端打包文件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Upgrade3.oau</strong></td>
+<td><strong>客户端升级文件</strong></td>
+</tr>
+<tr>
+<td><strong>OServer.exe</strong></td>
+<td><strong>服务器程序</strong></td>
+</tr>
+<tr>
+<td><strong>OServer3.ini</strong></td>
+<td><strong>服务器配置文件</strong></td>
+</tr>
+<tr>
+<td><strong>AInstGen.exe</strong></td>
+<td><strong>创建客户端程序</strong></td>
+</tr>
+<tr>
+<td><strong>OControl3.exe</strong></td>
+<td><strong>服务控制器程序</strong></td>
+</tr>
+<tr>
+<td><strong>OMailRpt.exe</strong></td>
+<td><strong>邮件报告服务器程序</strong></td>
+</tr>
+<tr>
+<td><strong>OUpdate3.exe</strong></td>
+<td><strong>补丁管理服务器程序</strong></td>
+</tr>
+<tr>
+<td><strong>RInst3.exe</strong></td>
+<td><strong>远程安装客户端程序</strong></td>
+</tr>
+</tbody></table>
+<p>​    1.Oserver3.exe(Ocontrol3.exe)服务器：管理所有客户端计算机，并向其传递相关的规则和指令，收集客户端采集的数据并保存。</p>
+<p>​    2.Oconsole3.exe控制台：查看客户端监控数据，提供数据统计、分析和导出，设置监控规则和策略，对客户端进行实时监控及系统维护。</p>
+<p>​    3.Oupdata3.exe补丁管理：根据所设置的策略从微软官网下载相应的补丁安装文件</p>
+<p>​    4.Ostanby3.exe备用服务器：用于在主服务器运行出错（如主服务器被停止）时，保证加密客户端的在线加解密策略权限正常。</p>
+<h2 id="1-2数据备份"><a href="#1-2数据备份" class="headerlink" title="1.2数据备份"></a>1.2数据备份</h2><p>​        1.控制台备份：控制台-工具-服务器管理-备份管理，选择“备份任务”—“新建任务”—选择需要备份的数据、时间范围、存储路径及是否删除原始数据。</p>
+<p>​        2.手动备份：停止IP-guard及SQL服务，进入数据存储目录（DATA），选择需要备份的日期的数据库文件，复制或剪切到存储备份的目录</p>
+<h2 id="1-3数据还原"><a href="#1-3数据还原" class="headerlink" title="1.3数据还原"></a>1.3数据还原</h2><p>​        1.控制台加载: 控制台—工具—服务器管理—备份管理,选择“加载”—“加载备份”—选择存储备份的目录，会显示当前目录下所有日期的数据及状态，选择需要加载的日期，点“加载”</p>
+<p>​        2.手动还原: 停止IP-guard、SQL服务，将备份存储目录中需要查看的日期的数据库文件复制到当前数据目录中，再启动SQL Server、IP-guard服务。</p>
+<h2 id="1-4数据清除"><a href="#1-4数据清除" class="headerlink" title="1.4数据清除"></a>1.4数据清除</h2><p>​        1.自动清除：控制台-工具-选项-数据清除选择数据保留天数以及类型</p>
+<p>​        2.手工清除：停止IPG,SQL服务器，删除DATA目录下相应日期数据库文件</p>
+<h2 id="1-5服务器常见问题"><a href="#1-5服务器常见问题" class="headerlink" title="1.5服务器常见问题"></a>1.5服务器常见问题</h2><p>1.服务器无法启动：</p>
+<p>​    1.SQL SERVER异常或者IP-guard数据库损坏</p>
+<p>2.服务器的授权失效（序列号失效）</p>
+<p>3.服务被注销，右下角服务器图标中显示为空</p>
+<p>1.数据库置疑：</p>
+<p>1.症状</p>
+<p>​         数据库状态显示为置疑（或可疑）</p>
+<p>1.原因分析</p>
+<p>​          SQL服务意外退出导致数据库置疑<br>​          数据库文件所在的磁盘分区空间不足<br>​          数据库文件组已满<br>​          一些非法的操作可能导致数据库置疑。</p>
+<p>1.修复数据库</p>
+<p>2.数据库无法修复的处理</p>
+<p>1.迁移数据库：</p>
+<p>​    1.数据迁出：备份主数据库文件、DATA日志数据库文件、ZTEMP临时数据、检验码、序列号、SQL server、IP-guard安装程序到新服务器。</p>
+<p>​    2.安装新服务器：在新的服务器上安装SQL Server及相应补丁、IP-guard服务器。</p>
+<p>​    3.还原数据：停止IP-guard服务器，在SQL Server企业管理器上删除新装IP-guard服务器新创建的OCULAR3数据库，将旧服务器上备份的主数据库、DATA、ZTEMP复制到当前IP-guard安装目录下，替换掉原文件夹，将替换后的主数据库加载到数据库中即可。</p>
+<p>​    4.重新注册：在服务控制器上右键，打开“工具”—“注册”，输入序列号，填写注册信息，点击“在线注册”，会提示到第一次注册时填写的邮箱当中接收激活邮件，通过邮件获取注册码注册服务器。（如果之前设置了检验码，需要设置新服务器检验码和原来相同：在服务控制器上右键，打开“工具”—“检验码”，输入与旧服务器上设置的相同的检验码。</p>
+<p>1.其他常见问题：</p>
+<p>1.服务器时间异常报警：服务器记录的时间与当前获取到的系统时间不一致而报警，在控制台—工具—服务器管理—服务器时间，选择“信任时间”</p>
+<p>2.空间报警：DATA或ZTEMP空间不足报警；可能原因是：1、数据存储所在空间确实不足；2、某些数据库存在异常，导致服务器误报。解决方法：1、若空间确实不足，可以选择将日志数据备份到别的分区或删除部分数据；</p>
+<p>2、空间充足的情况下，确认应用程序日志是否有关OSERVER3的错误，并根据错误进行分析处理。</p>
+<p>3.日志查错：服务器右键-工具-日志打开事件查看器，选中应用程序日志，查看是否有来源为OCULAR3的错误，或右键另存为EVT格式文件</p>
+<p>4.数据量分析：数据主要集中在屏幕记录，文档备份,需根据客户实际情况估算</p>
+<h1 id="二、客户端维护"><a href="#二、客户端维护" class="headerlink" title="二、客户端维护"></a>二、客户端维护</h1><p>1.客户端安装后在控制台上没有显示</p>
+<p>1.原因分析</p>
+<p>​    1.服务器验证客户端的身份不通过</p>
+<p>​    2.服务器和客户端之间的网络通讯有故障</p>
+<p>​    3.客户端程序没有正常运行</p>
+<p>1.解决方法</p>
+<p>​    1.确认客户端是否正常运行</p>
+<p>​    2.确认客户端与服务器的网络通讯是否正常</p>
+<p>​    3.登陆控制台检查是否有服务器与客户端通讯相关的事件日志</p>
+<p>​    4.检查客户端是不是被内网的其它IP-guard服务器接管了</p>
+<p>1.客户端在控制台上显示离线状态</p>
+<p>1.原因分析</p>
+<p>​    1.防火墙屏蔽了客户端与服务器通信的端口</p>
+<p>​    2.安装了客户端后重装或者还原了系统</p>
+<p>​    3.客户端被非法卸载或通过客户端工具卸载</p>
+<p>1.客户端离线报警</p>
+<p>​         控制台上设置客户端离线指定天数后报警</p>
+<p>1.客户端ID冲突</p>
+<p>1.症状</p>
+<p>​        控制台弹出“客户端登录冲突”报警</p>
+<p>1.原因分析</p>
+<p>​    1.客户端机器识别信息（硬盘ID、网卡地址）获取失败</p>
+<p>​    2.计算机更换了硬盘或网卡</p>
+<p>1.解决方法</p>
+<p>​    1.计算机管理窗口中查找有冲突的计算机</p>
+<p>​    2.查看冲突客户端当前正在生效的识别信息，并确定需要重新指定的客户端信息</p>
+<p>​    3.重新指定客户端ID</p>
+<p>1.客户端策略不生效</p>
+<p>1.IP-guard详细版本号</p>
+<p>​    2.确认策略设置是否正确</p>
+<p>​    3.是否有用户策略</p>
+<p>​    4.确认策略是否已经下发到客户端</p>
+<p>​    5.开启调试开关获取信息（不同模块的调试信息不同）</p>
+<p>​    6.确认是否之前出现过？新版本是否已经修复</p>
+<p>1.客户端日志不记录</p>
+<p>​    1.IP-guard详细版本号</p>
+<p>​    2.全部不记录还是部分不记录</p>
+<p>​    3.服务器操作系统的应用程序日志中是否有报错</p>
+<p>​    4.开启调试开关获取信息</p>
+<p>​    5.确认是否之前出现过？新版本是否已经修复</p>
+<p>1.加密系统无法正常启动</p>
+<p>​    1.IP-guard详细版本号</p>
+<p>​    2.是否已经启用加密授权</p>
+<p>​    3.查看客户端桌面右下角加密托盘图标显示状态</p>
+<p>​    4.检查是否安装了加密客户端</p>
+<p>​    5.加密系统客户端程序是否在运行</p>
+<p>​    6.是否设置了隐藏加密托盘图标策略</p>
+<p>1.保存文件没有加密</p>
+<p>​    1.IP-guard详细版本号</p>
+<p>​    2.是否启用客户端加密授权并且加密托盘图标显示正常</p>
+<p>​    3.保存文件的进程是否授权进程</p>
+<p>​    4.工作模式是否设置为只解密不加密</p>
+<p>​    5.是否有未授权进程参与文件保存过程</p>
+<p>1.加密文件无法打开</p>
+<p>​    1.IP-guard详细版本号</p>
+<p>​    2.打开文件的进程是否授权进程</p>
+<p>​    3.是否设置软件为授权软件时该软件已经在运行</p>
+<p>​    4.系统盘剩余空间是否足够</p>
+<p>​    5.文件是否能够手工解密</p>
+<p>​    6.是否能够直接打开解密后的文件</p>
+<p>​    7.尽快从缓冲区中进行恢复</p>
+<p>1.启动加密后某些程序运行异常</p>
+<p>​    1.IP-guard详细版本号</p>
+<p>​    2.禁用客户端的加密授权是否正常</p>
+<p>​    3.扫描程序相关目录下的文件并解密</p>
+<p>​    4.取消软件授权后是否正常</p>
+<p>​    5.过滤所有的文件是否正常</p>
+<p>​    6.通过客户端配置策略过滤HooKAPI</p>
+<p>​    7.通过客户端配置策略屏蔽主动注入</p>
+<p>1.常用工具</p>
+<p>​    1.离线卸载客户端工具</p>
+<p>​    2.离线清除策略工具</p>
+<p>​    3.屏蔽客户端功能模块工具</p>
+<p>​    4.清除IP/MAC绑定信息工具</p>
+<p>​    5.基本策略恢复工具</p>
+<h1 id="三、其他维护"><a href="#三、其他维护" class="headerlink" title="三、其他维护"></a>三、其他维护</h1><p>1.控制台无法登陆</p>
+<ol>
+<li>检查ip、账号、密码是否正确</li>
+<li>检查服务器是否正常启动</li>
+<li>检查服务器的8236端口是否能正常连通</li>
+<li>检查是否被杀毒软件或防火墙禁止了</li>
+<li>检查控制台版本是否与服务器版本匹配。</li>
+<li>忘记控制台密码</li>
+<li>如果记得admin密码，可以登陆修改其他账户密码</li>
+<li>清除sys_user表（会同时清除其他账户信息）</li>
+<li>控制台上查询不到数据</li>
+<li>检查控制台和服务器版本是否一致</li>
+<li>检查服务器应用程序日志是否报错</li>
+<li>确认所有数据查询不到还是部分数据</li>
+<li>确认登陆账户是否有权限</li>
+<li>是否通过外网方式连接服务器<br>服务器本地控制台登录能否查询</li>
+</ol>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IP-guard 服务器安装前后需要有哪些注意事项？</title>
+    <url>/posts/5b87.html</url>
+    <content><![CDATA[<p>安装SQLserver时的注意事项：实例名称（如果客户本身的数据库有其他业务系统运行，需要注意，必要的话重新安装指定实例）；设置服务账户必须选择本地系统账户(Local System)。</p>
+<p>参考文档：《SQL 2005 Express Installation.doc》</p>
+<p>支持的Microsoft SQL Server数据库版本：</p>
+<p>SQL Server 2000 SP4或以上<br>SQL Server 2005 SP1或以上<br>SQL Server 2008<br>SQL Server 2012<br>SQL Server 2016<br>SQL Server 2017<br>如果没有购买SQL Server并且客户规模较少，可以安装微软提供的免费的MSDE SP4、SQL Server Express，推荐2005 Express和2008 R2Express。 MSDE只支持2G的数据库容量，MSDE会受并发数量的影响，因此，MSDE一般只推荐用于测试，建议客户如需安装免费版本的数据库，应安装SQLServer Express版本。SQL server 2005 Express支持到4G的数据库大小。SQL server 2008 R2 Express 支持到10G的数据库大小。</p>
+<p>为了保证服务器的正常工作，存放数据库文件的磁盘分区（数据库文件默认存放在服务器的安装目录下）最好为 NTFS 格式的，FAT32 格式的磁盘分区有单个文件大小不能超过 4G 的限制。</p>
+<p> 服务器安装成功后，建议先设置检验码再安装客户端，使服务器与客户端的连接更安全。</p>
+<p> 授权(有偿)请联系QQ号或者发邮件<a href="mailto:1186047@qq.com">1186047@qq.com</a> 仅供学习交流使用,如长期使用请支持正版。</p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ip-guard如何设置代理管理员？</title>
+    <url>/posts/52aa.html</url>
+    <content><![CDATA[<p>​    先对指定客户端的加密授权设置里面“允许登陆代理管理员”，然后在控制台账户管理中新建一个加密管理员账号，并根据需要配置此管理员账号的权限，设置完成后便可以在指定的加密客户端电脑上登陆代理管理员。</p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ip-guard如果服务器 IP 地址或机器名变更之后对客户端或控制台会有影响吗？</title>
+    <url>/posts/696e.html</url>
+    <content><![CDATA[<p>1、 服务器的 IP 地址或机器名变更包括两种情况：一种是服务器所在的计算机 IP 地址或机器名发生了变化，另一种情况是服务器迁移到别的计算机上改变了 IP 地址或机器名；第一种情况如果服务器开启了主动轮询功能（在控制台“工具”-&gt;“选项”-&gt;“连接设置”里的主动轮循项，默认是启动的）客户端与服务器的通讯是没有影响的，第二种情况下，为了确保服务器与客户端能正常连接，最好设置服务器的检验码为原来的检验码，并启动主动轮询功能。</p>
+<p>2、 当服务器 IP 地址或机器名变更后，只需在登陆控制台时输入新的服务器 IP 或机器名就可以了。针对整个网络，在控制台设置策略客户端配置-自定义  serverspare=新IP，</p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ip-guard文档加密后无小锁标志</title>
+    <url>/posts/fcc0.html</url>
+    <content><![CDATA[<p>加密锁图标是用来标记显示加密文档，而非加密文件和外发文件都不会显示。</p>
+<ol>
+<li><p>确定文件是加密文件，可以通过打开本地扫描来扫描指定的文件，查看是否有小锁标志。如果有但是在桌面和资源管理器中查看文件无小锁标志，可能被保护软件处理了或被用户恶意修改过。</p>
+</li>
+<li><p>确认是否设置了隐藏加密锁图标策略</p>
+</li>
+<li><p>查看C:\Windows\System32\SDFileIcon2.dll（备份文件baksdfi2.sys）是否存在，如果不存在，则查看杀毒软件日志，是否有查杀记录，若无记录，需要重装客户端。</p>
+</li>
+<li><p>若有记录，使用Procexp工具查看Explorer.exe进程中是否有SDFileIcon2.dll或SDFileIcon64.dll模块。如果没有，注册COM组件</p>
+</li>
+</ol>
+<p>开始-运行：输入cmd打开dos命令行，输入regsvr32.exe sdfileicon2.dll（或者 “regsvr32 sdfileicon64.dll” (x64)），注册模块成功后，重启explorer.exe</p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ip-guard服务器不能上外网，补丁管理该怎样使用？</title>
+    <url>/posts/aa73.html</url>
+    <content><![CDATA[<p>服务器不能上外网，补丁管理该怎样使用？</p>
+<p>如果服务器所在的计算机不能访问公网，此时需要将补丁管理模块迁移到能访问公网的计算机上执行，才能从微软的网站上下载补丁检测文件和补丁文件。 具体的步骤如下：</p>
+<p>1.停止服务器上OUpdate的运行：在系统服务中(在运行中输入“services.msc”打开服务管理器)停止OCULAR V3 Update,并将其启动类型改为”手动”。</p>
+<p>2.转移补丁管理，在能连上互联网的计算机上（该计算机也能和服务器机器正常通讯）：首先建立一个目录，将服务器上的OUpdate.exe和Update.ini文件复制到这个目录下。修改</p>
+<p>Update.ini文件并保存：</p>
+<p>[Config] IP=服务器的IP地址</p>
+<p>3.安装补丁管理服务，在这台计算机上运行命令提示符，将路径切换到该目录下（例如</p>
+<p>OUpdate.exe和Update.ini所在目录为d:\ipguard3\oupdate，则在命令提示符下首先输入</p>
+<p>“d:”回车，然后键入“cd ipguard3\oupdate”），输入“OUpdate.exe –i”命令安装补</p>
+<p>丁管理服务，然后进入系统的服务窗口就能见到”OCULAR V3 Update”，启动该服务即可。</p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ip-guard怎样将服务器迁移到其它地方？</title>
+    <url>/posts/7d4f.html</url>
+    <content><![CDATA[<p>怎样将服务器迁移到其它地方？</p>
+<p>如果您的服务器需要迁移，并希望迁移后仍然可以查看前期的日志，或保持前期的设置，那么可以参照我们提供的服务器迁移方案：</p>
+<p>[移动现有服务器]：请确认服务器当前的检验码，如果忘记了检验码，那最好在所有客户端都</p>
+<p>连接上的情况下重新设置检验码；如果忘记了检验码，那么在重新安装服务器后就需要重新面部署所有客户端。</p>
+ <a id="more"></a>
+
+<p>1，卸载 IP-guard V3 服务器。 2, 分离数据库“OCULAR3”。</p>
+<p>3，把 IP-guard 的安装目录除数据库文件外的其它文件备份到“BackUp1”文件夹里。 4, 把所有数据库文件备份到“BackUp2”文件夹里。</p>
+<p>[迁移服务器到另一计算机（/系统）]：假设该系统已安装 SQL Server 并打上了相应的补丁；</p>
+<p>1，把 “BackUp2”里的所有数据库文件拷贝到本地磁盘（数据库文件最好放在磁盘空间比较大的分区中），在 SQL Server 的企业管理器中附加数据库，选择要附加的 MDF 文</p>
+<p>件为“BackUp2”里的 MDF 文件。</p>
+<p>2，安装新的 IP-guard 服务器，安装过程里会寻问数据库已经存在，是否要覆盖原来的,</p>
+<p>选择不覆盖。</p>
+<p>3，停止服务器，把“BackUp1”里的文件 copy 到新的安装目录里，覆盖已存在的文件。</p>
+<p>4，重新注册；在服务控制器输入您的正式序列号，产生新的识别码，再向我们申请注</p>
+<p>册码；重新注册目前只支持给我们发送邮件的方式，我们的邮箱是<a href="mailto:1186047@qq.com">1186047@qq.com</a>，邮件内容包括您购买的产品信息（产品序列号和在新的识别码）、公司信息以及再注册原因（如：更换服务器），我们会将注册码发送到您第一次注册的邮箱，收到注册码后，重新注册即可。</p>
+<p>5, 将检验码 设置为原来的检验码。</p>
+]]></content>
+      <categories>
+        <category>IP-GUARD</category>
+      </categories>
+      <tags>
+        <tag>IP-GUARD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>号外 快赚.微信小号托管平台</title>
+    <url>/posts/3266.html</url>
+    <content><![CDATA[<p>将您的微信小号<a href="http://z.weiwee.com/Register.aspx?inviter=Darkbrat" target="_blank" rel="noopener">托管</a>到平台，<br>平台使用你的小号干活获取收益，您将获得<strong>分成</strong>……<br>托管之后您不需要做任何操作，一切都由平台<strong>自动</strong>完成，<br>您只需静静等待，<strong>坐等赚钱</strong>即可<del>~</del><br>您的小号仅用于网赚，如：刷阅读，刷公众号关注等，绝不从事任何非法活动。<br>请放心<a href="http://z.weiwee.com/MyQR.aspx" target="_blank" rel="noopener">托管</a>！</p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/167969dbac095fa4.png" alt=""></p>
+<p><img src="http://img.0xbug.com:88/imgs/2020/06/16005315378c14c3.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>网赚</category>
+      </categories>
+      <tags>
+        <tag>网赚</tag>
+      </tags>
+  </entry>
+</search>
